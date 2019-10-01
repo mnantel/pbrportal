@@ -20,8 +20,6 @@ config system automation-trigger
         set event-type event-log
         set logid 39947
     next
-    edit "asdasd"
-    next
 end
 config system automation-action
     edit "apinewconnect"
