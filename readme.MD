@@ -146,4 +146,23 @@ config firewall policy
         set groups "LDAP_VPNPROFILE1" "LDAP_VPNPROFILE2"
     next
 end
+config system interface
+    edit "CUSTOMER1"
+        set vdom "root"
+        set ip 10.10.10.1 255.255.255.0
+        set allowaccess ping
+        set interface "port2"
+        set vlanid 101
+    next
+    edit "CUSTOMER2"
+        set vdom "root"
+        set ip 10.10.10.1 255.255.255.0
+        set allowaccess ping
+        set interface "port2"
+        set vlanid 102
+    next
+end
+config system settings
+    set allow-subnet-overlap enable
+end
 ```
