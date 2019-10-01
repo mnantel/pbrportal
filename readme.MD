@@ -57,3 +57,13 @@ If you need to upgrade:
 1. cd /opt/pbrportal
 1. git pull
 1. systemctl restart pbrportal.service
+
+## How to configure
+
+You will need an api-admin user account on the target FortiOS device, which you can enable by creating the user under 'config system api-user' and then running command 'exec api-user generate MYUSER' to generate the apikey. Ensure that this account has trusted-host set to point only to the PBRPortal IP address.
+
+The config.json is split in backend/frontend config options, for security reasons: backend config is not transmitted to the client-side SPA JS, to ensure only the backend has access to the device APIkey.
+
+Frontend config allows changing the logo image file, header text and descriptive text, along with whether to show the VPN user info.
+
+The logo image file must reside in the /web subfolder. Since the frontend is responsive, no need to resize.
