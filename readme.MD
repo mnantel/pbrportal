@@ -1,6 +1,6 @@
 # Fortinet PBR Switcher Portal (pbrportal)
 
-![screenshot](https://raw.githubusercontent.com/mnantel/pbrportal/blob/master/pbrportal.png)
+![screenshot](https://raw.githubusercontent.com/mnantel/pbrportal/master/pbrportal.png)
 
 This project's purpose is to change the belonging group of the client IP accessing it to a group listed on the portal on a target FortiGate device. The workflow is the following:
 
