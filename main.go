@@ -402,7 +402,7 @@ func deleteAddress(address string) {
 
 	groups := getAddressGroups()
 	for _, v := range groups.Results {
-		if v.Comment == "vpnprofile" {
+		if v.Comment == "pbrprofile" {
 			addrgrpRemoveMember(v.Name, address)
 		}
 	}
