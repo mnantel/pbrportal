@@ -67,3 +67,86 @@ The config.json is split in backend/frontend config options, for security reason
 Frontend config allows changing the logo image file, header text and descriptive text, along with whether to show the VPN user info.
 
 The logo image file must reside in the /web subfolder. Since the frontend is responsive, no need to resize.
+
+If you need to support overlapping address for the target environments, you must enable 'allow-subnet-overlap', under 'config system setting'.
+
+Sample of the related FortiOS configuration below, where PBRPortal is at 192.168.11.5, and we use 2 LDAP groups in our example. Profiles shown by PBRPortal are derived from referencing policies, pbr rules and address groups to ensure users cannot PBR themselves to interfaces without having any permissions configured (while this would technically not allow access, its just unclean).
+
+```
+config firewall address
+    edit "nullip"
+        set subnet 127.127.127.127 255.255.255.255
+    next
+    edit "PORTAL"
+        set subnet 192.168.11.5 255.255.255.255
+    next
+end
+config firewall addrgrp
+    edit "VPNPROFILE1"
+        set member "nullip" 
+        set comment "pbrprofile"
+    next
+    edit "VPNPROFILE2"
+        set member "nullip"
+        set comment "pbrprofile"
+    next
+end
+config router policy
+    edit 1
+        set input-device "ssl.root"
+        set srcaddr "all"
+        set dstaddr "PORTAL"
+        set action deny
+    next
+    edit 2
+        set input-device "ssl.root"
+        set srcaddr "VPNPROFILE1"
+        set dstaddr "all"
+        set output-device "CUSTOMER1"
+    next
+    edit 3
+        set input-device "ssl.root"
+        set srcaddr "VPNPROFILE2"
+        set dstaddr "all"
+        set output-device "CUSTOMER2"
+    next
+end
+config firewall policy
+   edit 1
+        set name "VLAN101Access"
+        set uuid 2b6bb88e-e079-51e9-e365-3742d7955eca
+        set srcintf "ssl.root"
+        set dstintf "VLAN101"
+        set srcaddr "all"
+        set dstaddr "NET_10.10.10.0/24"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set groups "LDAP_VPNPROFILE1"
+    next
+    edit 2
+        set name "VLAN102Access"
+        set uuid e08a5542-dafa-51e9-6387-4a8f03567dce
+        set srcintf "ssl.root"
+        set dstintf "VLAN102"
+        set srcaddr "all"
+        set dstaddr "NET_10.10.10.0/24"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set groups "LDAP_VPNPROFILE2"
+    next
+    edit 3
+        set name "PBRPortal Access"
+        set uuid 5e61bbbc-e079-51e9-02c8-c294d4e310ca
+        set srcintf "ssl.root"
+        set dstintf "port5"
+        set srcaddr "all"
+        set dstaddr "PORTAL"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set groups "LDAP_VPNPROFILE1" "LDAP_VPNPROFILE2"
+    next
+end
+```
