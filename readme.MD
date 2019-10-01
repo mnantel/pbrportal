@@ -33,7 +33,7 @@ end
 
 ## How to install
 
-This is not currently cleanly packaged, and thus the current process for Linux based platforms (tested on Debian):
+This is not currently OS-packaged, and thus the current process for Linux based platforms (tested on Debian):
 1. Install Golang (see online docs on doing this for your platform)
 1. mkdir /opt/
 1. git clone https://github.com/mnantel/pbrportal
@@ -45,6 +45,13 @@ This is not currently cleanly packaged, and thus the current process for Linux b
 1. systemctl daemon-reload
 1. systemctl enable pbrportal.service
 1. systemctl start pbrportal.service
+
+Verify that the service is operating:
+1. systemctl status pbrportal.service
+
+Review the logs for the service if it is not starting:
+1. journalctl -u pbrportal.service
+Logs from this command will also show ongoing activity for PBRPortal.
 
 If you need to upgrade:
 1. cd /opt/pbrportal
