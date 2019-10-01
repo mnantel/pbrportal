@@ -1,0 +1,16 @@
+{
+    "backend": {
+        "apikey": "wcddsmqs1Q484jr9jxGdydhQ6qckr3",
+        "firewallip": "192.168.86.100:443"
+    },
+    "frontend": {
+        "hostname": "192.168.11.5",
+        "port": "4000",
+        "headertitle": "Fortinet PBRPortal",
+        "headertext": "Clicking on a link below will force all your traffic to egress to its corresponding interface. Links shown correspond to address groups used as source for PBR rules forwarding to interfaces for which the user an an explicit firewall policy allowing traffic to.",
+        "logofile": "Fortinet_Logo_Black-Red.png",
+        "showuserinfo": true
+    }
+}
+ 
+    
