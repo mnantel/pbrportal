@@ -30,3 +30,23 @@ config system automation-action
     next
 end
 ```
+
+## How to install
+
+This is not currently cleanly packaged, and thus the current process for Linux based platforms (tested on Debian):
+1. Install Golang (see online docs on doing this for your platform)
+1. mkdir /opt/
+1. git clone https://github.com/mnantel/pbrportal
+1. cd pbrportal
+1. cp config.example.json config.json (modify as needed)
+1. go get -d ./... (download all necessary dependancies)
+1. go build .
+1. cp pbrportal.service /etc/systemd/system/
+1. systemctl daemon-reload
+1. systemctl enable pbrportal.service
+1. systemctl start pbrportal.service
+
+If you need to upgrade:
+1. cd /opt/pbrportal
+1. git pull
+1. systemctl restart pbrportal.service
