@@ -114,7 +114,6 @@ end
 config firewall policy
    edit 1
         set name "VLAN101Access"
-        set uuid 2b6bb88e-e079-51e9-e365-3742d7955eca
         set srcintf "ssl.root"
         set dstintf "VLAN101"
         set srcaddr "all"
@@ -126,7 +125,6 @@ config firewall policy
     next
     edit 2
         set name "VLAN102Access"
-        set uuid e08a5542-dafa-51e9-6387-4a8f03567dce
         set srcintf "ssl.root"
         set dstintf "VLAN102"
         set srcaddr "all"
@@ -138,7 +136,6 @@ config firewall policy
     next
     edit 3
         set name "PBRPortal Access"
-        set uuid 5e61bbbc-e079-51e9-02c8-c294d4e310ca
         set srcintf "ssl.root"
         set dstintf "port5"
         set srcaddr "all"
