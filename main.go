@@ -294,7 +294,7 @@ func apiGetAddressGroups(w http.ResponseWriter, r *http.Request, ps httprouter.P
 		for _, intf := range currentallowedintf {
 			if intf == pbrrule.OutputDevice {
 				for _, srcaddr := range pbrrule.Srcaddr {
-					if _, ok := grpDupCheck["foo"]; ok == false {
+					if _, ok := grpDupCheck[srcaddr.Name]; ok == false {
 						currentallowedgroups = append(currentallowedgroups, srcaddr.Name)
 						grpDupCheck[srcaddr.Name] = true
 					}
