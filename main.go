@@ -289,7 +289,7 @@ func apiGetAddressGroups(w http.ResponseWriter, r *http.Request, ps httprouter.P
 	currentallowedintf = strRemoveDups(currentallowedintf)
 	log.Println("ALLOWED INTERFACES: ", currentallowedintf)
 	var currentallowedgroups []string
-	var grpDupCheck map[string]bool
+	grpDupCheck := make(map[string]bool)
 	for _, pbrrule := range pbr {
 		for _, intf := range currentallowedintf {
 			if intf == pbrrule.OutputDevice {
