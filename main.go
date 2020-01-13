@@ -295,8 +295,12 @@ func apiGetAddressGroups(w http.ResponseWriter, r *http.Request, ps httprouter.P
 			if intf == pbrrule.OutputDevice {
 				for _, srcaddr := range pbrrule.Srcaddr {
 					if _, ok := grpDupCheck[srcaddr.Name]; ok == false {
-						currentallowedgroups = append(currentallowedgroups, srcaddr.Name)
-						grpDupCheck[srcaddr.Name] = true
+						for _, group := range addrgrpres.Results {
+							if srcaddr.Name == group.Name && group.Comment == "pbrprofile" {
+								currentallowedgroups = append(currentallowedgroups, srcaddr.Name)
+								grpDupCheck[srcaddr.Name] = true
+							}
+						}
 					}
 
 				}
@@ -308,12 +312,10 @@ func apiGetAddressGroups(w http.ResponseWriter, r *http.Request, ps httprouter.P
 
 	var activegroup string
 	for _, group := range addrgrpres.Results {
-		if group.Comment == "pbrprofile" {
-			for _, member := range group.Member {
-				if member.Name == clientip {
-					activegroup = group.Name
+		for _, member := range group.Member {
+			if member.Name == clientip {
+				activegroup = group.Name
 
-				}
 			}
 		}
 	}
