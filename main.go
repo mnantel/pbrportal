@@ -221,18 +221,8 @@ func newTunnel(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 func apiGetUserInfo(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	clientip := strings.Split(r.RemoteAddr, ":")[0]
-	// http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-	// client := &http.Client{}
-	// req, _ := http.NewRequest("GET", "https://"+FirewallIp+"/api/v2/monitor/vpn/ssl/select/", nil)
-	// req.Header.Set("Authorization", "Bearer "+APIKey)
-	// res, err := client.Do(req)
-	// if err != nil {
-	// 	log.Println(err)
-	// }
-	// resbody, err := ioutil.ReadAll(res.Body)
 	var sslclients FOSVPNSSLUserResponse
 	fosGetToStruct("/api/v2/monitor/vpn/ssl/select/", &sslclients)
-	// json.Unmarshal(resbody, &sslclients)
 
 	for _, user := range sslclients.Results {
 		if len(user.Subsessions) > 0 {
@@ -299,11 +289,16 @@ func apiGetAddressGroups(w http.ResponseWriter, r *http.Request, ps httprouter.P
 	currentallowedintf = strRemoveDups(currentallowedintf)
 	log.Println("ALLOWED INTERFACES: ", currentallowedintf)
 	var currentallowedgroups []string
+	var grpDupCheck map[string]bool
 	for _, pbrrule := range pbr {
 		for _, intf := range currentallowedintf {
 			if intf == pbrrule.OutputDevice {
 				for _, srcaddr := range pbrrule.Srcaddr {
-					currentallowedgroups = append(currentallowedgroups, srcaddr.Name)
+					if _, ok := grpDupCheck["foo"]; ok == false {
+						currentallowedgroups = append(currentallowedgroups, srcaddr.Name)
+						grpDupCheck[srcaddr.Name] = true
+					}
+
 				}
 
 			}
