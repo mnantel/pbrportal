@@ -308,10 +308,12 @@ func apiGetAddressGroups(w http.ResponseWriter, r *http.Request, ps httprouter.P
 
 	var activegroup string
 	for _, group := range addrgrpres.Results {
-		for _, member := range group.Member {
-			if member.Name == clientip {
-				activegroup = group.Name
+		if group.Comment == "pbrprofile" {
+			for _, member := range group.Member {
+				if member.Name == clientip {
+					activegroup = group.Name
 
+				}
 			}
 		}
 	}
